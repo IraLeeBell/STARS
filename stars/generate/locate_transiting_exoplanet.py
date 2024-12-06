@@ -21,7 +21,7 @@ def main():
         print(f"File {info_file} not found. Make sure you ran the generation script first.")
         return
 
-    files = sorted(glob.glob("exoplanet_image_*.fits"))
+    files = sorted(glob.glob("images/exoplanet_image_*.fits"))
     if len(files) == 0:
         print("No images found. Make sure your FITS files are named 'exoplanet_image_XXXX.fits'.")
         return

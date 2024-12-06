@@ -1,8 +1,10 @@
 import sys
+import os
 import numpy as np
 from astropy.io import fits
 from scipy.ndimage import gaussian_filter
 import math
+import matplotlib.pyplot as plt
 
 def generate_exoplanet_stack(sx, sy, NN, M, sigma=2.0, RN=10.0, sky_lev=1000.0):
     edge = 10
@@ -62,13 +64,6 @@ def generate_exoplanet_stack(sx, sy, NN, M, sigma=2.0, RN=10.0, sky_lev=1000.0):
     transit_cts = cts[transit_star_idx]
     transit_star_x, transit_star_y = star_coords[transit_star_idx]
     transit_flux = []
-    # for i in range(M):
-    #     frame = im_s.copy()
-    #     delta_flux = (flux_multiplier[i] - 1.0)*transit_cts
-    #     frame[transit_star_x, transit_star_y] += delta_flux
-    #     frame_with_noise = frame + np.sqrt(RN**2 + frame + sky_lev)*np.random.randn(sx, sy)
-    #     images.append(frame_with_noise.astype('float32'))
-    #     transit_flux.append(transit_cts * flux_multiplier[i])
 
     for i in range(M):
         frame = im_s.copy()
@@ -81,7 +76,6 @@ def generate_exoplanet_stack(sx, sy, NN, M, sigma=2.0, RN=10.0, sky_lev=1000.0):
 
         images.append(frame_with_noise.astype('float32'))
         transit_flux.append(transit_cts * flux_multiplier[i])
-
 
     return images, star_coords, transit_star_idx, ref_star_idx, np.array(transit_flux)
 
@@ -108,12 +102,23 @@ def main():
 
     images, star_coords, transit_star_idx, ref_star_idx, transit_flux = generate_exoplanet_stack(sx, sy, NN, M)
 
-    for i, img in enumerate(images, start=1):
-        filename = f"exoplanet_image_{str(i).zfill(4)}.fits"
-        fits.writeto(filename, img, overwrite=True)
-        print(f"Generated {filename}")
+    # Create directories if they don't exist
+    os.makedirs('images', exist_ok=True)
+    os.makedirs('png', exist_ok=True)
 
-    # Save star info to a file
+    for i, img in enumerate(images, start=1):
+        fits_filename = os.path.join('images', f"exoplanet_image_{str(i).zfill(4)}.fits")
+        fits.writeto(fits_filename, img, overwrite=True)
+        print(f"Generated {fits_filename}")
+
+        # Save a stretched PNG of the image
+        # Use a simple percentile stretch
+        vmin, vmax = np.percentile(img, [5, 95])
+        png_filename = os.path.join('png', f"exoplanet_image_{str(i).zfill(4)}.png")
+        plt.imsave(png_filename, img, cmap='gray', origin='lower', vmin=vmin, vmax=vmax)
+        print(f"Saved {png_filename}")
+
+    # Save star info to a file in the current directory
     np.savez("exoplanet_star_info.npz", 
              star_coords=star_coords, 
              transit_star_idx=transit_star_idx, 

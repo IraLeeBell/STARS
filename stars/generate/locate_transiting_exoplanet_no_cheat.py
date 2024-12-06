@@ -31,7 +31,7 @@ def trapezoid_model(M, normal_flux, dip_flux, ingress_start, ingress_end, egress
     return lc
 
 def main():
-    files = sorted(glob.glob("exoplanet_image_*.fits"))
+    files = sorted(glob.glob("images/exoplanet_image_*.fits"))
     if len(files) == 0:
         print("No images found matching 'exoplanet_image_XXXX.fits'")
         return
