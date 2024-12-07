@@ -7,6 +7,6 @@ STARS - Synthetic Tool for Analysis of Radiance and Starlight
 <img src="https://github.com/user-attachments/assets/ce543cf3-b731-43e5-b4bc-e9e33bcffd1a" width="400" height="400">
 
 ## Generate Star Fields with a Simulated Variable Star
-<img src="https://github.com/user-attachments/assets/aa78eab9-f7f8-40b6-a490-d0160ec0a750" width="400" height="400">
+<img src="https://github.com/user-attachments/assets/35f0871a-c424-4cde-9d7d-79f53f1f19fc" width="400" height="400">
 <br />
-<img src="https://github.com/user-attachments/assets/03c15fdc-1b82-4fa2-8166-aa9360dca677" width="400" height="400">
+<img src="https://github.com/user-attachments/assets/ae7456b2-8aa1-4d82-8d6c-aead58cf8559" width="400" height="400">
